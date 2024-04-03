@@ -12,7 +12,7 @@ import pygame, sys, time, random
 # Hard      ->  40
 # Harder    ->  60
 # Impossible->  120
-difficulty = 25
+difficulty = 10
 
 # Window size
 frame_size_x = 720
@@ -57,7 +57,6 @@ direction = 'RIGHT'
 change_to = direction
 
 score = 0
-
 
 # Game Over
 def game_over():
@@ -120,13 +119,13 @@ while True:
 
     # Moving the snake
     if direction == 'UP':
-        snake_pos[1] -= 10
+        snake_pos[1] -= 10  #posição y
     if direction == 'DOWN':
-        snake_pos[1] += 10
+        snake_pos[1] += 10  #posição y
     if direction == 'LEFT':
-        snake_pos[0] -= 10
+        snake_pos[0] -= 10  #posição x
     if direction == 'RIGHT':
-        snake_pos[0] += 10
+        snake_pos[0] += 10 #posição x
 
     # Snake body growing mechanism
     snake_body.insert(0, list(snake_pos))
