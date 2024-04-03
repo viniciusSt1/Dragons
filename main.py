@@ -5,6 +5,15 @@ Made with PyGame
 
 import pygame, sys, time, random
 
+pygame.init()
+
+# Music
+pygame.mixer.music.load("sons/game-music-loop-7-145285.mp3")
+pygame.mixer.music.play(-1)
+
+# Sound
+eat = pygame.mixer.Sound("sons/sfx_jump_07-80241.mp3")
+
 
 # Difficulty settings
 # Easy      ->  10
@@ -133,6 +142,9 @@ while True:
     if snake_pos[0] == food_pos[0] and snake_pos[1] == food_pos[1]:
         score += 1
         food_spawn = False
+
+        #emitir som da comida
+        eat.play()
     else:
         snake_body.pop()
 
