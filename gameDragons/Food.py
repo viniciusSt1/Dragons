@@ -5,4 +5,7 @@ class Food:
         self.position = coords
 
     def spawm_food(self,display_size):
-        self.position = [random.randrange(1, (display_size[0]//10)) * 10, random.randrange(1, (display_size[1]//10)) * 10]
+        self.position = [random.randrange(1, (display_size[0]//32)) * 32, random.randrange(1, (display_size[1]//32)) * 32]
+    
+    def draw_food(self,display,surf):
+        display.window.blit(surf.tailDOWN, self.position)

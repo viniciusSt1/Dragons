@@ -3,6 +3,6 @@ from gameDragons.Runner import Runner
 
 pygame.init()
 
-game = Runner()
+game = Runner() 
 
 pygame.quit()

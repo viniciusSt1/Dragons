@@ -14,12 +14,12 @@ class Events:
                 # W -> Up; S -> Down; A -> Left; D -> Right
                 if event.key == pygame.K_UP or event.key == ord('w'):
                     dragon.change_direction('UP')
-                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                elif event.key == pygame.K_DOWN or event.key == ord('s'):
                     dragon.change_direction('DOWN')
-                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                elif event.key == pygame.K_LEFT or event.key == ord('a'):
                     dragon.change_direction('LEFT')
-                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                elif event.key == pygame.K_RIGHT or event.key == ord('d'):
                     dragon.change_direction('RIGHT')
                 # Esc -> Create event to quit the game
-                if event.key == pygame.K_ESCAPE:
+                elif event.key == pygame.K_ESCAPE:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))

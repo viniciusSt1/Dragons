@@ -2,7 +2,7 @@ import pygame,time,sys
 from . import *
 
 class gameDisplay:
-    def __init__(self,fps:int=10,fullScreen:bool=False,name:str="Dragons",disp_size=(720,480)):
+    def __init__(self,fps:int=10,fullScreen:bool=False,name:str="Dragons",disp_size=(1120,672)):
         self.fps=fps
         self.fullScreen=fullScreen
         self.name=name

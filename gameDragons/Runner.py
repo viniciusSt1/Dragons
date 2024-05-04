@@ -5,14 +5,16 @@ from gameDragons.Dragon import Dragon
 from gameDragons.gameDisplay import gameDisplay
 from gameDragons.Food import Food
 from gameDragons.Events import Events
+from gameDragons.Surfaces import Surfaces
 
 class Runner:
     def __init__(self):
         self.som = Sounds()
         self.display = gameDisplay()
         self.dragon = Dragon()
-        self.food = Food([random.randrange(1, (self.display.size[0]//10)) * 10, random.randrange(1, (self.display.size[1]//10)) * 10])
+        self.food = Food([random.randrange(1, (self.display.size[0]//grid_tam)) * grid_tam, random.randrange(1, (self.display.size[1]//grid_tam)) * grid_tam])
         self.events = Events()
+        self.surf = Surfaces()
 
         self.score=0
 
@@ -28,7 +30,7 @@ class Runner:
 
             self.display.window.fill(black)     #pinta a tela de preto
 
-            if(self.dragon.update(self.display.size)):  #atualiza estado/posição do dragao, return true = morreu
+            if self.dragon.update(self.display.size):  #atualiza estado/posição do dragao, return true = morreu
                 self.som.ambienceMusic1.stop()
                 self.som.gameover1.play()
                 self.display.game_over(self.score)
@@ -40,16 +42,15 @@ class Runner:
                 self.score+=1
             
             # setando os blocos do dragao na tela
-            for pos in self.dragon.body:
-                pygame.draw.rect(self.display.window, green, pygame.Rect(pos[0], pos[1], 10, 10))
-            
-            # setando a comida na tela
-            pygame.draw.rect(self.display.window, white, pygame.Rect(self.food.position[0], self.food.position[1], 10, 10))
+            self.dragon.draw_dragon(self.display,self.surf)
 
+            # setando a comida na tela
+            self.food.draw_food(self.display,self.surf)
+            
             self.display.show_score(1, white, 'consolas', 20, self.score)   # mostrando score na tela
 
             pygame.display.update()             # atualizando (desenhando) a tela com tudo setado
-            
+
             self.fps_controller.tick(difficulty)
     
 
