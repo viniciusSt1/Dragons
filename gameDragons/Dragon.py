@@ -2,7 +2,7 @@ import pygame
 from gameDragons import red
 
 class Dragon:
-    def __init__(self,coordsInicio=[96,32], bodyDragon=[[96, 32], [64, 32], [32, 32]], directionInicio="RIGHT", direction_blocks=['right','right','right']):
+    def __init__(self,coordsInicio=[96,32], bodyDragon=[[96, 32], [64, 32], [32, 32]], directionInicio="RIGHT", direction_blocks=['RIGHT','RIGHT','RIGHT']):
         #body block = 32px x 32px -> grid layout
         
         self.body = bodyDragon
