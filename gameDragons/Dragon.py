@@ -109,10 +109,10 @@ class Dragon:
                     case 'RIGHT': display.window.blit(surf.bodyRIGHT, pos)
                     case 'UP': display.window.blit(surf.bodyUP, pos)
                     case 'LEFT': display.window.blit(surf.bodyLEFT, pos)
-                    case 'c1': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
-                    case 'c2': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
-                    case 'c3': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
-                    case 'c4': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
+                    case 'c1': display.window.blit(surf.bodyC1, pos)
+                    case 'c2': display.window.blit(surf.bodyC2, pos)
+                    case 'c3': display.window.blit(surf.bodyC3, pos)
+                    case 'c4': display.window.blit(surf.bodyC4, pos)
             else:
                 match self.direction_blocks[index]:    #tail
                     case 'DOWN': display.window.blit(surf.tailDOWN,pos)

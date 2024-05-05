@@ -41,3 +41,5 @@ class gameDisplay:
         self.window.blit(score_surface, score_rect)
         # pygame.display.flip()
 
+    def set_background(self, surf):
+        self.window.blit(surf.background3, (0,0))

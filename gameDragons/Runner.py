@@ -28,7 +28,7 @@ class Runner:
         while True:
             self.events.checker(self.dragon)    #verifica os eventos vindos do teclado
 
-            self.display.window.fill(black)     #pinta a tela de preto
+            self.display.set_background(self.surf)     #pinta a tela de preto
 
             if self.dragon.update(self.display.size):  #atualiza estado/posição do dragao, return true = morreu
                 self.som.ambienceMusic1.stop()
