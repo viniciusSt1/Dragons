@@ -30,17 +30,17 @@ class Runner:
 
             self.display.set_background(self.surf)     #pinta a tela de preto
 
-            if self.dragon.update(self.display.size):  #atualiza estado/posição do dragao, return true = morreu
-                self.som.ambienceMusic1.stop()
-                self.som.gameover1.play()
-                self.display.game_over(self.score)
-
             # Verificando se o dragao comeu a comida
             if self.dragon.eat(self.food.position):
                 self.som.eat.play()
                 self.food.spawm_food(self.display.size)    #respawnando a comida
                 self.score+=1
-            
+
+            if self.dragon.update(self.display.size):  #atualiza estado/posição do dragao, return true = morreu
+                self.som.ambienceMusic1.stop()
+                self.som.gameover1.play()
+                self.display.game_over(self.score)
+
             # setando os blocos do dragao na tela
             self.dragon.draw_dragon(self.display,self.surf)
 

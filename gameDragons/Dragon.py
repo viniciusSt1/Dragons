@@ -10,6 +10,7 @@ class Dragon:
         self.direction = directionInicio    #RIGHT, UP, LEFT, DOWN
         self.last_direction = self.direction    #ultima direção que o dragao andou
         self.direction_blocks = direction_blocks    #: RIGHT, UP, LEFT, DOWN, c1, c2, c3, c4 
+        self.eatState = False
 
     def change_direction(self,direction:str):
         #Verificando direção atual para mudar somente em casos válidos
@@ -61,17 +62,24 @@ class Dragon:
     def eat(self,foodPosition):
         if self.position == foodPosition:
             self.direction_blocks.insert(0,self.direction)      #adiciona mais uma direção de um bloco (cabeça)
-            return True
+            self.eatState = True
         else:
+            self.eatState = False
             self.body.pop()
-            return False
+
+        return self.eatState
     
     def update(self,display_size):
         self.move()
         self.body.insert(0, list(self.position))
-
-        for index in range(len(self.direction_blocks)-1,-1,-1):     #atualizando a direção dos blocos
-            self.direction_blocks[index] = self.direction_blocks[index-1]
+        
+        if(not self.eatState):
+            for index in range(len(self.direction_blocks)-1,-1,-1):     #atualizando a direção dos blocos
+                #if(index == len(self.direction_blocks)):
+                #    if(self.direction_blocks[index] == 'c1' or self.direction_blocks[index] == 'c2' or self.direction_blocks[index] == 'c3' or self.direction_blocks[index] == 'c4'):
+                #        self.direction_blocks[index] = self.direction_blocks[index-2]
+                #else:
+                self.direction_blocks[index] = self.direction_blocks[index-1]
 
         self.direction_blocks[0] = self.direction                   #atualizando a direção da cabeça
         #print(self.direction_blocks)
