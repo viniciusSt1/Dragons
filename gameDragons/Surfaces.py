@@ -31,3 +31,9 @@ class Surfaces:
         self.tailUP = pygame.transform.rotate(self.dragonSprites.subsurface((35,28),(32,32)), 180)
         self.tailLEFT = pygame.transform.rotate(self.dragonSprites.subsurface((35,28),(32,32)), 270)
 
+    def get_retangle_transparente(self,largura,altura,transparencia,cor):
+        retangulo_transparente = pygame.Surface((largura, altura))
+        retangulo_transparente.set_alpha(transparencia)
+        retangulo_transparente.fill(cor)
+
+        return retangulo_transparente

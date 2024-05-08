@@ -20,6 +20,11 @@ class Runner:
 
         self.fps_controller = pygame.time.Clock()
 
+        self.inicio()
+    
+    def inicio(self):
+        self.display.tela_inicial(self.surf,self.som,self.events)
+        
         self.run()
 
     def run(self):

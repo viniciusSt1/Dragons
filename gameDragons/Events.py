@@ -23,3 +23,14 @@ class Events:
                 # Esc -> Create event to quit the game
                 elif event.key == pygame.K_ESCAPE:
                     pygame.event.post(pygame.event.Event(pygame.QUIT))
+    
+    def gameStart(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                return event.key != pygame.K_RETURN
+            else: 
+                return True
+        return True
