@@ -127,3 +127,18 @@ class Dragon:
                     case 'RIGHT': display.window.blit(surf.tailRIGHT,pos)
                     case 'UP': display.window.blit(surf.tailUP,pos)
                     case 'LEFT': display.window.blit(surf.tailLEFT,pos)
+                    case _: 
+                        tail = self.getDirectionTail(surf)
+                        if tail:
+                            display.window.blit(tail,pos)
+    
+    def getDirectionTail(self,surf):
+        match self.direction_blocks[-2]:
+            case 'DOWN':
+                return surf.tailDOWN
+            case 'RIGHT':
+                return surf.tailRIGHT
+            case 'UP':
+                return surf.tailUP
+            case 'LEFT':
+                return surf.tailLEFT
