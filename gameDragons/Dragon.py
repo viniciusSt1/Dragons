@@ -2,7 +2,7 @@ import pygame
 from gameDragons import red
 
 class Dragon:
-    def __init__(self,coordsInicio=[96,32], bodyDragon=[[96, 32], [64, 32], [32, 32]], directionInicio="RIGHT", direction_blocks=['right','right','right']):
+    def __init__(self,coordsInicio=[96,32], bodyDragon=[[96, 32], [64, 32], [32, 32]], directionInicio="RIGHT", direction_blocks=['RIGHT','RIGHT','RIGHT']):
         #body block = 32px x 32px -> grid layout
         
         self.body = bodyDragon
@@ -10,6 +10,7 @@ class Dragon:
         self.direction = directionInicio    #RIGHT, UP, LEFT, DOWN
         self.last_direction = self.direction    #ultima direção que o dragao andou
         self.direction_blocks = direction_blocks    #: RIGHT, UP, LEFT, DOWN, c1, c2, c3, c4 
+        self.eatState = False
 
     def change_direction(self,direction:str):
         #Verificando direção atual para mudar somente em casos válidos
@@ -61,17 +62,24 @@ class Dragon:
     def eat(self,foodPosition):
         if self.position == foodPosition:
             self.direction_blocks.insert(0,self.direction)      #adiciona mais uma direção de um bloco (cabeça)
-            return True
+            self.eatState = True
         else:
+            self.eatState = False
             self.body.pop()
-            return False
+
+        return self.eatState
     
     def update(self,display_size):
         self.move()
         self.body.insert(0, list(self.position))
-
-        for index in range(len(self.direction_blocks)-1,-1,-1):     #atualizando a direção dos blocos
-            self.direction_blocks[index] = self.direction_blocks[index-1]
+        
+        if(not self.eatState):
+            for index in range(len(self.direction_blocks)-1,-1,-1):     #atualizando a direção dos blocos
+                #if(index == len(self.direction_blocks)):
+                #    if(self.direction_blocks[index] == 'c1' or self.direction_blocks[index] == 'c2' or self.direction_blocks[index] == 'c3' or self.direction_blocks[index] == 'c4'):
+                #        self.direction_blocks[index] = self.direction_blocks[index-2]
+                #else:
+                self.direction_blocks[index] = self.direction_blocks[index-1]
 
         self.direction_blocks[0] = self.direction                   #atualizando a direção da cabeça
         #print(self.direction_blocks)
@@ -109,13 +117,28 @@ class Dragon:
                     case 'RIGHT': display.window.blit(surf.bodyRIGHT, pos)
                     case 'UP': display.window.blit(surf.bodyUP, pos)
                     case 'LEFT': display.window.blit(surf.bodyLEFT, pos)
-                    case 'c1': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
-                    case 'c2': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
-                    case 'c3': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
-                    case 'c4': pygame.draw.rect(display.window, red, pygame.Rect(pos[0], pos[1], 32, 32))
+                    case 'c1': display.window.blit(surf.bodyC1, pos)
+                    case 'c2': display.window.blit(surf.bodyC2, pos)
+                    case 'c3': display.window.blit(surf.bodyC3, pos)
+                    case 'c4': display.window.blit(surf.bodyC4, pos)
             else:
                 match self.direction_blocks[index]:    #tail
                     case 'DOWN': display.window.blit(surf.tailDOWN,pos)
                     case 'RIGHT': display.window.blit(surf.tailRIGHT,pos)
                     case 'UP': display.window.blit(surf.tailUP,pos)
                     case 'LEFT': display.window.blit(surf.tailLEFT,pos)
+                    case _: 
+                        tail = self.getDirectionTail(surf)
+                        if tail:
+                            display.window.blit(tail,pos)
+    
+    def getDirectionTail(self,surf):
+        match self.direction_blocks[-2]:
+            case 'DOWN':
+                return surf.tailDOWN
+            case 'RIGHT':
+                return surf.tailRIGHT
+            case 'UP':
+                return surf.tailUP
+            case 'LEFT':
+                return surf.tailLEFT

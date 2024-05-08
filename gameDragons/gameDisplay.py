@@ -13,9 +13,36 @@ class gameDisplay:
     def _setup_display(self):
         pygame.display.set_caption(self.name)
 
-        self.window = pygame.display.set_mode(self.size)
+        self.window = pygame.display.set_mode(self.size, pygame.DOUBLEBUF)
+        self.window.set_alpha(None)
 
         pygame.mouse.set_visible(False)
+    
+    def tela_inicial(self, surf, song , events):
+        song.ambienceMusic2.play(-1)
+
+        clock = pygame.time.Clock()
+        menu_font = pygame.font.SysFont('Tahoma', 40)
+        menu_color = (255, 255, 255)
+        menu_text = menu_font.render("Pressione Enter para Jogar", True, menu_color)
+        menu_text_rect = menu_text.get_rect(center=(self.size[0]//2,self.size[1]//2))
+
+        waiting = True
+
+        while waiting:
+            self.window.blit(surf.background1, (0,0))
+
+            retangulo = surf.get_retangle_transparente(self.size[0], 90,160, (0,0,0))  
+    
+            self.window.blit(retangulo, (0, self.size[1]//2 - 45))   
+            self.window.blit(menu_text, menu_text_rect)
+            
+            pygame.display.flip()
+            waiting = events.gameStart()
+
+            clock.tick(60)
+        
+        song.ambienceMusic2.stop()
     
     def game_over(self, score):
         my_font = pygame.font.SysFont('times new roman', 90)
@@ -41,3 +68,5 @@ class gameDisplay:
         self.window.blit(score_surface, score_rect)
         # pygame.display.flip()
 
+    def set_background(self, surf):
+        self.window.blit(surf.background3, (0,0))
