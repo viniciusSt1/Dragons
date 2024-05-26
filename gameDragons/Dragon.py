@@ -123,22 +123,30 @@ class Dragon:
                     case 'c4': display.window.blit(surf.bodyC4, pos)
             else:
                 match self.direction_blocks[index]:    #tail
-                    case 'DOWN': display.window.blit(surf.tailDOWN,pos)
-                    case 'RIGHT': display.window.blit(surf.tailRIGHT,pos)
-                    case 'UP': display.window.blit(surf.tailUP,pos)
-                    case 'LEFT': display.window.blit(surf.tailLEFT,pos)
-                    case _: 
-                        tail = self.getDirectionTail(surf)
-                        if tail:
-                            display.window.blit(tail,pos)
+                    case 'DOWN': tail = surf.tailDOWN
+                    case 'RIGHT': tail = surf.tailRIGHT
+                    case 'UP': tail = surf.tailUP
+                    case 'LEFT': tail = surf.tailLEFT
+                    case 'c1': 
+                        if self.body[-2][0] == self.body[-1][0] + 32:
+                            tail = surf.tailRIGHT
+                        else:
+                            tail = surf.tailDOWN
+                    case 'c2': 
+                        if self.body[-2][0] == self.body[-1][0] - 32:
+                            tail = surf.tailLEFT
+                        else:
+                            tail = surf.tailDOWN
+                    case 'c3': 
+                        if self.body[-2][0] == self.body[-1][0] + 32:
+                            tail = surf.tailRIGHT
+                        else:
+                            tail = surf.tailUP
+                    case 'c4': 
+                        if self.body[-2][0] == self.body[-1][0] - 32:
+                            tail = surf.tailLEFT
+                        else:
+                            tail = surf.tailUP
+                    
+                display.window.blit(tail,pos)
     
-    def getDirectionTail(self,surf):
-        match self.direction_blocks[-2]:
-            case 'DOWN':
-                return surf.tailDOWN
-            case 'RIGHT':
-                return surf.tailRIGHT
-            case 'UP':
-                return surf.tailUP
-            case 'LEFT':
-                return surf.tailLEFT
