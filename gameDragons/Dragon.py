@@ -150,3 +150,12 @@ class Dragon:
                     
                 display.window.blit(tail,pos)
     
+    def to_dict(self):
+        return {
+            'body': [{'x': block[0], 'y': block[1]} for block in self.body],
+            'position': self.position,
+            'direction': self.direction,
+            'last_direction': self.last_direction,
+            'direction_blocks': self.direction_blocks,
+            'eatState': self.eatState
+        }

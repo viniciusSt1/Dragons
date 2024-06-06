@@ -22,28 +22,37 @@ class gameDisplay:
         song.ambienceMusic2.play(-1)
 
         clock = pygame.time.Clock()
+        altura_button = 90
+        largura_button = 420
+        
         menu_font = pygame.font.SysFont('Tahoma', 40)
         menu_color = (255, 255, 255)
-        menu_text = menu_font.render("Pressione Enter para Jogar", True, menu_color)
-        menu_text_rect = menu_text.get_rect(center=(self.size[0]//2,self.size[1]//2))
+        menu_text_newgame = menu_font.render("Enter - Novo Jogo", True, menu_color)
+        menu_text_save = menu_font.render("S - Último save", True, menu_color)
 
-        waiting = True
+        menu_text_newgame_rect = menu_text_newgame.get_rect(center=(self.size[0]//2,self.size[1]//2-60))
+        menu_text_save_rect = menu_text_save.get_rect(center=(self.size[0]//2,self.size[1]//2+60))
 
-        while waiting:
-            self.window.blit(surf.background1, (0,0))
+        self.window.blit(surf.background1, (0,0))
 
-            retangulo = surf.get_retangle_transparente(self.size[0], 90,160, (0,0,0))  
+        retangulo = surf.get_retangle_transparente(largura_button, altura_button, 200, (0,0,0))  
     
-            self.window.blit(retangulo, (0, self.size[1]//2 - 45))   
-            self.window.blit(menu_text, menu_text_rect)
+        self.window.blit(retangulo, ((self.size[0]-largura_button)//2, (self.size[1]-altura_button)//2 - 60))   
+        self.window.blit(menu_text_newgame, menu_text_newgame_rect)
+
+        self.window.blit(retangulo, ((self.size[0]-largura_button)//2, (self.size[1]-altura_button)//2 + 60))
+        self.window.blit(menu_text_save, menu_text_save_rect)
             
-            pygame.display.flip()
-            waiting = events.gameStart()
+        pygame.display.flip()
+
+        while True:
+            buttonclick = events.gameStart()
+            if buttonclick == 'start_game' or buttonclick == 'load_save':
+                song.ambienceMusic2.stop()
+                return buttonclick
 
             clock.tick(60)
         
-        song.ambienceMusic2.stop()
-    
     def game_over(self, score):
         my_font = pygame.font.SysFont('times new roman', 90)
         game_over_surface = my_font.render('YOU DIED', True, red)

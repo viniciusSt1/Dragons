@@ -9,3 +9,8 @@ class Food:
     
     def draw_food(self,display,surf):
         display.window.blit(surf.dragonFruit, self.position)
+    
+    def to_dict(self):
+        return {
+            'position': self.position
+        }

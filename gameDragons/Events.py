@@ -21,8 +21,9 @@ class Events:
                 elif event.key == pygame.K_RIGHT or event.key == ord('d'):
                     dragon.change_direction('RIGHT')
                 # Esc -> Create event to quit the game
-                elif event.key == pygame.K_ESCAPE:
-                    pygame.event.post(pygame.event.Event(pygame.QUIT))
+                elif event.key == ord('p'):
+                    return 'save'
+        return None
     
     def gameStart(self):
         for event in pygame.event.get():
@@ -30,7 +31,8 @@ class Events:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                return event.key != pygame.K_RETURN
-            else: 
-                return True
-        return True
+                if event.key == pygame.K_RETURN:
+                    return 'start_game'
+                elif event.key == pygame.K_s:
+                    return 'load_save'
+        return None

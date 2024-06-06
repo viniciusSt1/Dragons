@@ -6,6 +6,7 @@ from gameDragons.gameDisplay import gameDisplay
 from gameDragons.Food import Food
 from gameDragons.Events import Events
 from gameDragons.Surfaces import Surfaces
+from gameDragons.Dao import Dao
 
 class Runner:
     def __init__(self):
@@ -15,6 +16,7 @@ class Runner:
         self.food = Food([random.randrange(1, (self.display.size[0]//grid_tam)) * grid_tam, random.randrange(1, (self.display.size[1]//grid_tam)) * grid_tam])
         self.events = Events()
         self.surf = Surfaces()
+        self.dao = Dao()
 
         self.score=0
 
@@ -23,7 +25,12 @@ class Runner:
         self.inicio()
     
     def inicio(self):
-        self.display.tela_inicial(self.surf,self.som,self.events)
+        action = self.display.tela_inicial(self.surf,self.som,self.events)
+        
+        self.run() if action == 'start_game' else self.load_data()
+    
+    def load_data(self):
+        self.dao.getDados(self.dragon, self.food)
         
         self.run()
 
@@ -31,7 +38,10 @@ class Runner:
         self.som.ambienceMusic1.play(-1)
         
         while True:
-            self.events.checker(self.dragon)    #verifica os eventos vindos do teclado
+            action = self.events.checker(self.dragon)    #verifica os eventos vindos do teclado
+            if action == 'save':
+                self.dao.saveDados(self.dragon, self.food)
+                break
 
             self.display.set_background(self.surf)     #pinta a tela de preto
 
