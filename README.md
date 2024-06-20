@@ -1,2 +1,2 @@
 # Dragons
-Jogo desenvolvido para TACII
+Jogo desenvolvido para a disciplina de TÓPICOS AVANÇADOS EM COMPUTAÇÃO II 
