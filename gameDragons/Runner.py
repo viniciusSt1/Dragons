@@ -27,7 +27,12 @@ class Runner:
     def inicio(self):
         action = self.display.tela_inicial(self.surf,self.som,self.events)
         
-        self.run() if action == 'start_game' else self.load_data()
+        if action == 'start_game':
+            self.dragon = Dragon()
+            self.food = Food([random.randrange(1, (self.display.size[0]//grid_tam)) * grid_tam, random.randrange(1, (self.display.size[1]//grid_tam)) * grid_tam])
+            self.run() 
+        else: 
+            self.load_data()
     
     def load_data(self):
         self.dao.getDados(self.dragon, self.food)
@@ -39,9 +44,13 @@ class Runner:
         
         while True:
             action = self.events.checker(self.dragon)    #verifica os eventos vindos do teclado
-            if action == 'save':
+            if action == 'pause':
                 self.dao.saveDados(self.dragon, self.food)
-                break
+                self.display.game_paused(self.surf)
+                waiting=True
+                while waiting:
+                    if self.events.checker(self.dragon) == 'pause':
+                        waiting = False
 
             self.display.set_background(self.surf)     #pinta a tela de preto
 
@@ -54,7 +63,7 @@ class Runner:
             if self.dragon.update(self.display.size):  #atualiza estado/posição do dragao, return true = morreu
                 self.som.ambienceMusic1.stop()
                 self.som.gameover1.play()
-                self.display.game_over(self.score)
+                self.display.game_over(self.score, self.inicio)
 
             # setando os blocos do dragao na tela
             self.dragon.draw_dragon(self.display,self.surf)
@@ -62,7 +71,7 @@ class Runner:
             # setando a comida na tela
             self.food.draw_food(self.display,self.surf)
             
-            self.display.show_score(1, white, 'consolas', 20, self.score)   # mostrando score na tela
+            #self.display.show_score(1, white, 'consolas', 20, self.score)   # mostrando score na tela
 
             pygame.display.update()             # atualizando (desenhando) a tela com tudo setado
 

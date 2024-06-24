@@ -8,6 +8,9 @@ class Surfaces:
         self.background4 = pygame.image.load('Backgrounds/4.png')
         self.background5 = pygame.image.load('Backgrounds/5.png')
 
+        self.loading_bg = pygame.image.load("Backgrounds/Loading Bar Background.png")
+        self.loading_bar = pygame.image.load("Backgrounds/Loading Bar.png")
+
         self.dragonFruit = pygame.image.load('Sprites/DragonFruit.png').convert_alpha()
         self.dragonSprites = pygame.image.load('Sprites/DragonSprite.png').convert_alpha()
 

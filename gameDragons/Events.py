@@ -22,7 +22,7 @@ class Events:
                     dragon.change_direction('RIGHT')
                 # Esc -> Create event to quit the game
                 elif event.key == ord('p'):
-                    return 'save'
+                    return 'pause'
         return None
     
     def gameStart(self):
