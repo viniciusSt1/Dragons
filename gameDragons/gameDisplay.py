@@ -70,7 +70,7 @@ class gameDisplay:
             self.window.fill("#0d0e2e")
             loading_bar_width = loading_progress / WORK * 720
             loading_bar_scaled = pygame.transform.scale(surf.loading_bar, (int(loading_bar_width), 150))
-            loading_bar_rect = loading_bar_scaled.get_rect(midleft=(280, 360))
+            loading_bar_rect = loading_bar_scaled.get_rect(midleft=(self.size[0]//2 - loading_bar_width/2, self.size[1]//2))
             self.window.blit(surf.loading_bg, LOADING_BG_RECT)
             self.window.blit(loading_bar_scaled, loading_bar_rect)
             pygame.display.update()
