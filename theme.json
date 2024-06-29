@@ -1,0 +1,19 @@
+{
+    "button": {
+        "colours": {
+            "normal_text": "#FFFFFF",
+            "hovered_text": "#DD4040",
+            "normal_bg": "#000000E2",
+            "hovered_bg": "#000000F0",
+            "normal_border": "#000000",
+            "hovered_border": "#000000"
+        },
+        "font": {
+            "name": "Tahoma",
+            "size": 30
+        },
+        "shape": {
+            "corner_radius": 10
+        }
+    }
+}

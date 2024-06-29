@@ -1,8 +1,8 @@
 import pygame
 from gameDragons import red
-
+ 
 class Dragon:
-    def __init__(self,coordsInicio=[96,32], bodyDragon=[[96, 32], [64, 32], [32, 32]], directionInicio="RIGHT", direction_blocks=['RIGHT','RIGHT','RIGHT']):
+    def __init__(self,coordsInicio=[96,32], bodyDragon=[[96, 32], [64, 32], [32, 32]], directionInicio="RIGHT", direction_blocks=['RIGHT','RIGHT','RIGHT'], color = 'red'):
         #body block = 32px x 32px -> grid layout
         
         self.body = bodyDragon
@@ -10,6 +10,7 @@ class Dragon:
         self.direction = directionInicio    #RIGHT, UP, LEFT, DOWN
         self.last_direction = self.direction    #ultima direção que o dragao andou
         self.direction_blocks = direction_blocks    #: RIGHT, UP, LEFT, DOWN, c1, c2, c3, c4 
+        self.color = color
         self.eatState = False
 
     def change_direction(self,direction:str):
@@ -69,16 +70,12 @@ class Dragon:
 
         return self.eatState
     
-    def update(self,display_size):
+    def update(self,display_size, other_dragon):
         self.move()
         self.body.insert(0, list(self.position))
         
         if(not self.eatState):
             for index in range(len(self.direction_blocks)-1,-1,-1):     #atualizando a direção dos blocos
-                #if(index == len(self.direction_blocks)):
-                #    if(self.direction_blocks[index] == 'c1' or self.direction_blocks[index] == 'c2' or self.direction_blocks[index] == 'c3' or self.direction_blocks[index] == 'c4'):
-                #        self.direction_blocks[index] = self.direction_blocks[index-2]
-                #else:
                 self.direction_blocks[index] = self.direction_blocks[index-1]
 
         self.direction_blocks[0] = self.direction                   #atualizando a direção da cabeça
@@ -94,62 +91,114 @@ class Dragon:
             print("Para fora da tela")
             return True
 
-
         # Touching the snake body
         for block in self.body[1:]:
             if self.position == block:
                 print("Tocou no seu corpo")
                 return True
+        
+        if other_dragon != None:
+            for block in other_dragon.body:
+                if self.position == block:
+                    print("Tocou no outro corpo")
+                    return True
             
         return False    #tudo ok
-    
-    def draw_dragon(self, display,surf):
-        for index, pos in enumerate(self.body): #desenhando bloco a bloco de acordo com suas direções
-            if index == 0:
-                match self.direction_blocks[0]:
-                    case 'DOWN': display.window.blit(surf.headDOWN, pos)
-                    case 'RIGHT': display.window.blit(surf.headRIGHT, pos)
-                    case 'UP': display.window.blit(surf.headUP, pos)
-                    case 'LEFT': display.window.blit(surf.headLEFT, pos)
-            elif index < len(self.body)-1:
-                match self.direction_blocks[index]:
-                    case 'DOWN': display.window.blit(surf.bodyDOWN, pos)
-                    case 'RIGHT': display.window.blit(surf.bodyRIGHT, pos)
-                    case 'UP': display.window.blit(surf.bodyUP, pos)
-                    case 'LEFT': display.window.blit(surf.bodyLEFT, pos)
-                    case 'c1': display.window.blit(surf.bodyC1, pos)
-                    case 'c2': display.window.blit(surf.bodyC2, pos)
-                    case 'c3': display.window.blit(surf.bodyC3, pos)
-                    case 'c4': display.window.blit(surf.bodyC4, pos)
-            else:
-                match self.direction_blocks[index]:    #tail
-                    case 'DOWN': tail = surf.tailDOWN
-                    case 'RIGHT': tail = surf.tailRIGHT
-                    case 'UP': tail = surf.tailUP
-                    case 'LEFT': tail = surf.tailLEFT
-                    case 'c1': 
-                        if self.body[-2][0] == self.body[-1][0] + 32:
-                            tail = surf.tailRIGHT
-                        else:
-                            tail = surf.tailDOWN
-                    case 'c2': 
-                        if self.body[-2][0] == self.body[-1][0] - 32:
-                            tail = surf.tailLEFT
-                        else:
-                            tail = surf.tailDOWN
-                    case 'c3': 
-                        if self.body[-2][0] == self.body[-1][0] + 32:
-                            tail = surf.tailRIGHT
-                        else:
-                            tail = surf.tailUP
-                    case 'c4': 
-                        if self.body[-2][0] == self.body[-1][0] - 32:
-                            tail = surf.tailLEFT
-                        else:
-                            tail = surf.tailUP
-                    
-                display.window.blit(tail,pos)
-    
+
+    def draw_dragon(self, display, surf):
+        if self.color == 'blue':
+            for index, pos in enumerate(self.body):  # desenhando bloco a bloco de acordo com suas direções
+                if index == 0:
+                    match self.direction_blocks[0]:
+                        case 'DOWN': display.window.blit(surf.blue_dragon_sprites['head']['DOWN'], pos)
+                        case 'RIGHT': display.window.blit(surf.blue_dragon_sprites['head']['RIGHT'], pos)
+                        case 'UP': display.window.blit(surf.blue_dragon_sprites['head']['UP'], pos)
+                        case 'LEFT': display.window.blit(surf.blue_dragon_sprites['head']['LEFT'], pos)
+                elif index < len(self.body) - 1:
+                    match self.direction_blocks[index]:
+                        case 'DOWN': display.window.blit(surf.blue_dragon_sprites['body']['DOWN'], pos)
+                        case 'RIGHT': display.window.blit(surf.blue_dragon_sprites['body']['RIGHT'], pos)
+                        case 'UP': display.window.blit(surf.blue_dragon_sprites['body']['UP'], pos)
+                        case 'LEFT': display.window.blit(surf.blue_dragon_sprites['body']['LEFT'], pos)
+                        case 'c1': display.window.blit(surf.blue_dragon_sprites['bodyC']['C1'], pos)
+                        case 'c2': display.window.blit(surf.blue_dragon_sprites['bodyC']['C2'], pos)
+                        case 'c3': display.window.blit(surf.blue_dragon_sprites['bodyC']['C3'], pos)
+                        case 'c4': display.window.blit(surf.blue_dragon_sprites['bodyC']['C4'], pos)
+                else:
+                    match self.direction_blocks[index]:  # tail
+                        case 'DOWN': tail = surf.blue_dragon_sprites['tail']['DOWN']
+                        case 'RIGHT': tail = surf.blue_dragon_sprites['tail']['RIGHT']
+                        case 'UP': tail = surf.blue_dragon_sprites['tail']['UP']
+                        case 'LEFT': tail = surf.blue_dragon_sprites['tail']['LEFT']
+                        case 'c1':
+                            if self.body[-2][0] == self.body[-1][0] + 32:
+                                tail = surf.blue_dragon_sprites['tail']['RIGHT']
+                            else:
+                                tail = surf.blue_dragon_sprites['tail']['DOWN']
+                        case 'c2':
+                            if self.body[-2][0] == self.body[-1][0] - 32:
+                                tail = surf.blue_dragon_sprites['tail']['LEFT']
+                            else:
+                                tail = surf.blue_dragon_sprites['tail']['DOWN']
+                        case 'c3':
+                            if self.body[-2][0] == self.body[-1][0] + 32:
+                                tail = surf.blue_dragon_sprites['tail']['RIGHT']
+                            else:
+                                tail = surf.blue_dragon_sprites['tail']['UP']
+                        case 'c4':
+                            if self.body[-2][0] == self.body[-1][0] - 32:
+                                tail = surf.blue_dragon_sprites['tail']['LEFT']
+                            else:
+                                tail = surf.blue_dragon_sprites['tail']['UP']
+
+                    display.window.blit(tail, pos)
+        else:
+            for index, pos in enumerate(self.body):  # desenhando bloco a bloco de acordo com suas direções
+                if index == 0:
+                    match self.direction_blocks[0]:
+                        case 'DOWN': display.window.blit(surf.red_dragon_sprites['head']['DOWN'], pos)
+                        case 'RIGHT': display.window.blit(surf.red_dragon_sprites['head']['RIGHT'], pos)
+                        case 'UP': display.window.blit(surf.red_dragon_sprites['head']['UP'], pos)
+                        case 'LEFT': display.window.blit(surf.red_dragon_sprites['head']['LEFT'], pos)
+                elif index < len(self.body) - 1:
+                    match self.direction_blocks[index]:
+                        case 'DOWN': display.window.blit(surf.red_dragon_sprites['body']['DOWN'], pos)
+                        case 'RIGHT': display.window.blit(surf.red_dragon_sprites['body']['RIGHT'], pos)
+                        case 'UP': display.window.blit(surf.red_dragon_sprites['body']['UP'], pos)
+                        case 'LEFT': display.window.blit(surf.red_dragon_sprites['body']['LEFT'], pos)
+                        case 'c1': display.window.blit(surf.red_dragon_sprites['bodyC']['C1'], pos)
+                        case 'c2': display.window.blit(surf.red_dragon_sprites['bodyC']['C2'], pos)
+                        case 'c3': display.window.blit(surf.red_dragon_sprites['bodyC']['C3'], pos)
+                        case 'c4': display.window.blit(surf.red_dragon_sprites['bodyC']['C4'], pos)
+                else:
+                    match self.direction_blocks[index]:  # tail
+                        case 'DOWN': tail = surf.red_dragon_sprites['tail']['DOWN']
+                        case 'RIGHT': tail = surf.red_dragon_sprites['tail']['RIGHT']
+                        case 'UP': tail = surf.red_dragon_sprites['tail']['UP']
+                        case 'LEFT': tail = surf.red_dragon_sprites['tail']['LEFT']
+                        case 'c1':
+                            if self.body[-2][0] == self.body[-1][0] + 32:
+                                tail = surf.red_dragon_sprites['tail']['RIGHT']
+                            else:
+                                tail = surf.red_dragon_sprites['tail']['DOWN']
+                        case 'c2':
+                            if self.body[-2][0] == self.body[-1][0] - 32:
+                                tail = surf.red_dragon_sprites['tail']['LEFT']
+                            else:
+                                tail = surf.red_dragon_sprites['tail']['DOWN']
+                        case 'c3':
+                            if self.body[-2][0] == self.body[-1][0] + 32:
+                                tail = surf.red_dragon_sprites['tail']['RIGHT']
+                            else:
+                                tail = surf.red_dragon_sprites['tail']['UP']
+                        case 'c4':
+                            if self.body[-2][0] == self.body[-1][0] - 32:
+                                tail = surf.red_dragon_sprites['tail']['LEFT']
+                            else:
+                                tail = surf.red_dragon_sprites['tail']['UP']
+
+                    display.window.blit(tail, pos)
+
     def to_dict(self):
         return {
             'body': [{'x': block[0], 'y': block[1]} for block in self.body],

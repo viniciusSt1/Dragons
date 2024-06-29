@@ -26,6 +26,7 @@ class Dao:
             dragon.last_direction = data['dragon']['last_direction']
             dragon.position = data['dragon']['position']
             dragon.body = [[coord['x'], coord['y']] for coord in data['dragon']['body']]
+            dragon.color = 'blue'
 
         else:
             print('Documento não encontrado...')
